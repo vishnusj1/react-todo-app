@@ -1,13 +1,11 @@
-import React from 'react';
-// import { ReactDOM } from "react-dom";
 import './MyComponent.css';
 
-export default class MyComponent extends React.Component {
-  render(){
+export default function MyComponent (props) {
+ const {name,character} = props;
     return (
       <div className="header">
-        <div className="title">Hello, {this.props.name}</div>
+        <div className="title">Hello, {name}, {character}</div>
       </div>
     )
-  }
+
 }
