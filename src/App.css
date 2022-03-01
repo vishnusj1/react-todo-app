@@ -1,38 +1,79 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: column;
+}
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+form :nth-child(2) {
+  margin-left: 5px;
+}
+form input {
+  border: 0;
+  border-bottom: 1px solid #555555;
+}
+form input:focus {
+  outline: 0;
+}
+.Overview {
+  display: flex;
+  margin: 10px;
+  padding: 0 50px;
+  flex-direction: column;
+}
+.count {
+  display: flex;
+  justify-content: flex-end;
+}
+.Overview ul {
+  padding: 0;
+}
+.Overview li {
+  list-style-type: none;
+}
+.Overview input {
+  list-style-type: none;
+}
+.editBtn,
+.delBtn {
+  cursor: pointer;
+  margin-left: 8px;
+}
+.listItem {
+  display: flex;
+  padding: 8px 5px;
+  margin-bottom: 10px;
+  background-color: rgb(209, 209, 209, 0.4);
+  border-radius: 4px;
+}
+.listItem p {
+  margin: 0;
+  margin-left: 8px;
 }
 
-.App-link {
-  color: #61dafb;
+.buttons {
+  align-self: center;
+  justify-self: revert-layer;
+  margin-left: auto;
 }
+.deleteBtn {
+  cursor: pointer;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  margin-left: auto;
+}
+.textInput {
+  width: 90%;
+  font-size: 16px;
+  line-height: normal;
+  padding: 8px 5px;
+  outline: 0;
+  border: 0;
+  margin: 0 auto;
+  background-color: rgb(209, 209, 209, 0);
+
+  border-bottom: 1px solid #dfdfdf;
 }
