@@ -1,8 +1,8 @@
 import React from 'react';
-function FilterButton(props) {
+function FilterButton({ name, setFilter }) {
   return (
-    <div className="filterBtn" onClick={() => props.setFilter(props.name)}>
-      {props.name}
+    <div className="filterBtn" onClick={() => setFilter(name)}>
+      {name}
     </div>
   );
 }
