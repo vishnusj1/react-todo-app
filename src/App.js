@@ -1,97 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Overview from './components/Overview';
 import './App.css';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tasks: this.props.tasks,
-      title: '',
-      count: this.props.tasks.length,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.addTask = this.addTask.bind(this);
-    this.handleCompleteTask = this.handleCompleteTask.bind(this);
-    this.deleteTask = this.deleteTask.bind(this);
-    this.editTask = this.editTask.bind(this);
-  }
+const App = ({ tasks }) => {
+  const [count, setCount] = useState(tasks.length);
+  const [todo, setTodo] = useState(tasks);
+  const [title, setTitle] = useState('');
+  const handleChange = (e) => {
+    setTitle(e.target.value);
+  };
 
-  handleChange(e) {
-    this.setState({
-      title: e.target.value,
-    });
-  }
-  addTask(e) {
+  useEffect(() => {
+    setTitle('');
+    setCount(todo.length);
+  }, [todo]);
+
+  const addTodo = (e) => {
     e.preventDefault();
-    if (this.state.title === '') return;
-    const lastTask = this.state.tasks[this.state.tasks.length - 1];
-    const lastTaskId = lastTask ? lastTask.id : 0;
+    if (title === '') return;
+    const prevTodo = todo[todo.length - 1];
+    const prevTodoId = prevTodo ? prevTodo.id : 0;
     const newTask = {
       userId: 1,
-      id: lastTaskId + 1,
-      title: this.state.title,
+      id: prevTodoId + 1,
+      title: title,
       completed: false,
     };
+    setTodo([...todo, newTask]);
+  };
 
-    this.setState((prevState) => ({
-      tasks: this.state.tasks.concat(newTask),
-      title: '',
-      count: prevState.count + 1,
-    }));
-  }
+  const deleteTask = (id) => {
+    const arr = todo.filter((obj) => obj.id !== id);
+    setTodo(arr);
+  };
 
-  deleteTask(id) {
-    console.log(id);
-    const tasks = this.state.tasks.filter((obj) => obj.id !== id);
-    this.setState((prevState) => ({
-      tasks: tasks,
-      count: prevState.count - 1,
-    }));
-  }
-
-  handleCompleteTask(task) {
-    const arr = [...this.state.tasks];
-    const index = arr.findIndex((obj) => obj.id === task.id);
-    const obj = { ...arr[index], completed: !task.completed };
-    arr[index] = obj;
-    this.setState(
-      {
-        tasks: arr,
-      },
-      () => console.log(this.state.tasks)
+  const handleCompleteTask = (id) => {
+    const arr = todo.map((obj) =>
+      obj.id === id ? { ...obj, completed: !obj.completed } : { ...obj }
     );
-  }
+    setTodo(arr);
+  };
 
-  editTask(task, text) {
-    const arr = [...this.state.tasks];
-    const index = arr.findIndex((obj) => obj.id === task.id);
-    const obj = { ...arr[index], title: text };
-    arr[index] = obj;
-    this.setState(
-      {
-        tasks: arr,
-      },
-      () => console.log(this.state.tasks[index])
-    );
-  }
-  render() {
-    const { tasks, title, count } = this.state;
-    return (
-      <div className="container">
-        <form onSubmit={this.addTask}>
-          <input type="text" placeholder="Add task" onChange={this.handleChange} value={title} />
-          <button type="submit">Add</button>
-        </form>
-        <Overview
-          tasks={tasks}
-          count={count}
-          handleCompleteTask={this.handleCompleteTask}
-          deleteTask={this.deleteTask}
-          editTask={this.editTask}
-        />
-      </div>
-    );
-  }
-}
+  const editTask = (id, text) => {
+    if (text === '') {
+      deleteTask(id);
+    } else {
+      const arr = [...todo];
+      const index = arr.findIndex((obj) => obj.id === id);
+      const task = { ...arr[index], title: text };
+      arr[index] = task;
+      setTodo(arr);
+    }
+  };
+
+  return (
+    <div className="container">
+      <form onSubmit={addTodo}>
+        <input type="text" placeholder="Add task" onChange={handleChange} value={title} />
+        <button type="submit">Add</button>
+      </form>
+      <Overview
+        tasks={todo}
+        count={count}
+        handleCompleteTask={handleCompleteTask}
+        deleteTask={deleteTask}
+        editTask={editTask}
+      />
+    </div>
+  );
+};
 export default App;
